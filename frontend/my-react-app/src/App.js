@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SuperAdmin from './pages/SuperAdmin';
 import TemplateList from './pages/Templatelist';
 import TaskReportList from './pages/TaskReportList';
+import AssignedBug from'./pages/AssignedBug';
 
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/template-list" element={<TemplateList />} />
           <Route path="/super-admin" element={<SuperAdmin />} />
           <Route path="/task-report" element={<TaskReportList />} />
+          <Route path="/bug-report" element={<AssignedBug />} />
           
           {/* Add other routes here */}
         </Routes>

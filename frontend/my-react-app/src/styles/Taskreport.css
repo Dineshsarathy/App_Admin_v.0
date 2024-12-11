@@ -53,11 +53,11 @@ body {
 button.button-add {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background-color: #8458B3;
   color: #fff;
   border: none;
-  padding: 10px;
+  padding: 2px;
   border-radius: 4px;
   cursor: pointer;
 }

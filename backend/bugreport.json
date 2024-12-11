@@ -1,0 +1,72 @@
+[
+    {
+        "Temp_id": "A1001",
+        "Temp_Name": "John Developer",
+        "Bug_Id": "BUG001",
+        "Summary": "Login page crashes on invalid credentials",
+        "ScreenShot": "http://example.com/screenshots/bug001.png",
+        "Priority": "High",
+        "Severity": "Critical",
+        "Assigned_to": "Jane Tester",
+        "Assigned_date": "2023-11-01T10:00:00Z",
+        "Bug_DueDate": "2023-11-10T18:00:00Z",
+        "Completed_Date": "2023-11-08T15:00:00Z",
+        "Bug_status": "Resolved"
+    },
+    {
+        "Temp_id": "A1002",
+        "Temp_Name": "Alice Designer",
+        "Bug_Id": "BUG002",
+        "Summary": "Image carousel doesn't load on homepage",
+        "ScreenShot": "http://example.com/screenshots/bug002.png",
+        "Priority": "Medium",
+        "Severity": "Major",
+        "Assigned_to": "Tom QA",
+        "Assigned_date": "2023-11-05T09:00:00Z",
+        "Bug_DueDate": "2023-11-15T17:00:00Z",
+        "Completed_Date": "2023-11-13T14:00:00Z",
+        "Bug_status": "Resolved"
+    },
+    {
+        "Temp_id": "A1003",
+        "Temp_Name": "Mark Backend",
+        "Bug_Id": "BUG003",
+        "Summary": "Database timeout on heavy traffic",
+        "ScreenShot": "http://example.com/screenshots/bug003.png",
+        "Priority": "Critical",
+        "Severity": "Critical",
+        "Assigned_to": "David Ops",
+        "Assigned_date": "2023-11-07T11:30:00Z",
+        "Bug_DueDate": "2023-11-14T18:30:00Z",
+        "Completed_Date": "2023-11-13T16:00:00Z",
+        "Bug_status": "Resolved"
+    },
+    {
+        "Temp_id": "A1004",
+        "Temp_Name": "Emma Frontend",
+        "Bug_Id": "BUG004",
+        "Summary": "Dropdown menu overlaps footer",
+        "ScreenShot": "http://example.com/screenshots/bug004.png",
+        "Priority": "Low",
+        "Severity": "Minor",
+        "Assigned_to": "Harry QA",
+        "Assigned_date": "2023-11-10T13:00:00Z",
+        "Bug_DueDate": "2023-11-20T17:00:00Z",
+        "Completed_Date": "2023-11-19T12:00:00Z",
+        "Bug_status": "Resolved"
+    },
+    {
+        "Temp_id": "A1005",
+        "Temp_Name": "Lucy Manager",
+        "Bug_Id": "BUG005",
+        "Summary": "Session doesn't expire after logout",
+        "ScreenShot": "http://example.com/screenshots/bug005.png",
+        "Priority": "High",
+        "Severity": "Major",
+        "Assigned_to": "Nancy QA",
+        "Assigned_date": "2023-11-12T14:00:00Z",
+        "Bug_DueDate": "2023-11-18T16:00:00Z",
+        "Completed_Date": "2023-11-16T15:00:00Z",
+        "Bug_status": "Resolved"
+    }
+]

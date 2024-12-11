@@ -41,6 +41,12 @@ export default function SideBar({ isCollapsed }){
                     </NavLink>
                 </li>
                 <li className="menu-item">
+                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/bug-report'}>
+                <span><i class="fa-solid fa-users-rectangle"></i></span>
+                {!isCollapsed && <span>Assigned Bugs</span>}
+                    </NavLink>
+                </li>
+                <li className="menu-item">
                     <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/client-list'}>
                 <span><i class="fa-solid fa-users-rectangle"></i></span>
                 {!isCollapsed && <span>Client list</span>}
