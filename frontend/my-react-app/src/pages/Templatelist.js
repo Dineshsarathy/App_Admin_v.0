@@ -324,7 +324,7 @@ const handleSave = async (e) => {
                             id="name"
                             name="name"
                             required
-                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ marginBottom: '15px' }}>
@@ -336,7 +336,7 @@ const handleSave = async (e) => {
                              id="category"
                              name="category"
                             required
-                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ marginBottom: '15px' }}>
@@ -348,7 +348,7 @@ const handleSave = async (e) => {
                             id="email"
                             name="email"
                             required
-                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

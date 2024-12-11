@@ -339,14 +339,39 @@ export default function TaskReportList() {
                   required
                 />
               </div>
-              <div style={{ marginTop: '15px' }}>
-                <button type="submit">Add Task</button>
-                <button type="button" onClick={close} style={{ marginLeft: '2px' }}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <button
+                            type="submit"
+                            style={{
+                              backgroundColor: '#28a745',
+                              color: '#fff',
+                              padding: '10px 20px',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              width: '30%',
+                            }}
+                          >
+                            Add task
+                          </button>
+                          <button
+                            type="button"
+                            onClick={close}
+                            style={{
+                              backgroundColor: '#dc3545',
+                              color: '#fff',
+                              padding: '10px 20px',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              width: '30%',
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </div>
         )}
       </Popup>
           </div>
