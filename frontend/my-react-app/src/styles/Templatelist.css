@@ -186,7 +186,7 @@ body {
   }
   
   button.button-add:hover {
-    background-color: #0056b3;
+    background-color: #A020F0;
   }
   
   /* Collapsible Sidebar */
@@ -199,7 +199,7 @@ body {
     margin-left: 20px;
     align-items: center; /* Vertically center text and icon */
     justify-content: center; /* Horizontally center content */
-    background-color: #8458B3; /* Vibrant blue background */
+    background-color: #8458B3; 
     color: white; /* Text and icon color */
     border: none; /* No border */
     padding: 12px 20px; /* Adjust padding for better spacing */

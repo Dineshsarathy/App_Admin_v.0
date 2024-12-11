@@ -71,9 +71,9 @@ label {
   display: block;
   margin-bottom: 5px;
 }
- 
+ /* search */
 input {
-  width: 100%;
+  width: 25%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -330,22 +330,17 @@ table td button:last-child {
 
 .action-buttons{
 
-  width: 100%;
+  width: 70%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.action-buttons button{
-  width:100px;
-}
 input.search {
   width: 260px;
   border: 1px solid #a8a8a8 !important;
   height: 35px !important;
   border-radius: 20px;
   display: block;
-
-  
   padding: 9px 4px 9px 40px;
 }
 .profiles {

@@ -1,185 +1,302 @@
- h2 {
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .table-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .table-controls input[type="text"] {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 200px;
-  }
-  
-  .table-controls select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .add-button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .add-button:hover {
-    background-color: #218838;
-  }
-  
-  /* Table styles */
-  .table-container {
-    overflow-x: auto;
-  }
-  
-  .stylish-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .stylish-table th,
-  .stylish-table td {
-    text-align: left;
-    padding: 12px;
-    border: 1px solid #ddd;
-  }
-  
-  .stylish-table th {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .stylish-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .stylish-table tr:hover {
-    background-color: #eaf4ff;
-  }
-  
-  /* Action buttons */
-  .action-buttons {
-    display: flex;
-    gap: 5px;
-  }
-  
-  .action-buttons button {
-    border: none;
-    color: white;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .action-buttons button.edit:hover {
-    background-color: #0b9e0b;
-  }
-  
-  .action-buttons button.delete:hover {
-    background-color: #cc0000;
-  }
-  
-  /* Pagination */
-  .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .pagination button {
-    padding: 8px 12px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .pagination button:disabled {
-    background-color: #ddd;
-    color: #666;
-    cursor: not-allowed;
-  }
-  
-  .pagination span {
-    font-size: 14px;
-  }
-  
-  /* Popup styles */
-  .popup-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  .popup-content h3 {
-    margin-top: 0;
-  }
-  
-  .popup-content form {
-    display: flex;
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-list-contents {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.task-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.task-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search {
+  padding: 10px;
+  font-size: 14px;
+  width: 300px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+}
+
+.filter label {
+  margin-right: 10px;
+}
+
+.filter select {
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* Add new task button */
+button.button-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #8458B3;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #A020F0; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  background-color: #008cba;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 16px;
+}
+
+/* Stylish Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+}
+
+td button:hover {
+  background-color: #45a049;
+}
+
+td button:active {
+  background-color: #3e8e41;
+}
+
+/* Popup Styling */
+.popup-content {
+  margin: auto;
+  background: #fff;
+  width: 50%;
+  padding: 5px;
+  border: 1px solid #d7d7d7;
+}
+
+.popup-content form input,
+.popup-content form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.popup-content button[type="submit"] {
+  background-color: #28a745;
+  color: #fff;
+  justify-content: space-evenly;
+}
+
+.popup-content button[type="button"] {
+  background-color: #dc3545;
+  color: #fff;
+  justify-content: space-evenly;
+}
+
+/* Search */
+input {
+  width: 25%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  height: 50px !important;
+}
+
+/* Sorting */
+select {
+  padding: 5px 10px;
+  font-size: 12px;
+  outline: none;
+  height: 35px;
+  background: none;
+  border-radius: 10px;
+  font-family: 'Poppins';
+}
+
+/* Edit and Delete Button */
+.action-buttons {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+button.edit {
+  background-color: #099e09;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.delete {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Responsive Styling for Different Screens */
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .task-actions {
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
   }
-  
-  .popup-content label {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .popup-content input[type="text"] {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+  .search {
     width: 100%;
   }
-  
-  .popup-content button {
-    padding: 10px 15px;
+
+  .task-header {
+    font-size: 20px;
+  }
+
+  .pagination button {
+    padding: 8px 16px;
+  }
+
+  .popup-content {
+    width: 90%;
+  }
+
+  .task-list-contents {
+    padding: 10px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  table, th, td {
+    font-size: 12px;
+  }
+}
+
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .task-actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .search {
+    width: 70%;
+  }
+
+  .task-header {
+    font-size: 22px;
+  }
+
+  .pagination button {
+    padding: 9px 18px;
+  }
+
+  .popup-content {
+    width: 70%;
+  }
+
+  .task-list-contents {
+    padding: 15px;
+  }
+
+  table, th, td {
     font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
   }
-  
-  .popup-content button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
+}
+
+/* Desktop (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .task-actions {
+    flex-direction: row;
   }
-  
-  .popup-content button[type="submit"]:hover {
-    background-color: #0056b3;
+
+  .search {
+    width: 300px;
   }
-  
-  .popup-content button[type="button"] {
-    background-color: #6c757d;
-    color: #fff;
+
+  .task-header {
+    font-size: 24px;
   }
-  
-  .popup-content button[type="button"]:hover {
-    background-color: #5a6268;
+
+  .pagination button {
+    padding: 10px 20px;
   }
-  
+
+  .popup-content {
+    width: 50%;
+  }
+
+  table, th, td {
+    font-size: 16px;
+  }
+}
