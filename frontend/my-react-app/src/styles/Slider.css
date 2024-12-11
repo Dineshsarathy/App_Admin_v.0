@@ -3,9 +3,9 @@
   height: 100%;
   position: static;
   left: 0;
-  width: 20%;
+  width: 21%;
   top: 0;
-  justify-items: normal;
+  justify-items: center;
   z-index: 1;
   transition: all 200ms;
   box-sizing: border-box;
@@ -13,7 +13,17 @@
  
 .collapsed {
   width: 6%;
+  background-color: #34495e;
+  height: 100%;
+  position: static;
+  left: 0;
+  top: 0;
+  justify-items: center;
+  z-index: 1;
+  transition: all 200ms;
+  box-sizing: border-box;
 }
+
 .img{
   width: 50px;
   height: 50px;
@@ -30,7 +40,7 @@
  
 }
 .collapsed .logo-img{
-  justify-content: normal;
+  justify-content: center;
 }
 .logo-img{
   display: flex;
@@ -95,13 +105,4 @@
 }
 .collapsed .content{
   padding: 0 10px;
-}
-@media (max-width: 768px) {
-  .sidebar {
-    width: 50px; /* Fixed width for small screens */
-  }
-  .dashboard-container {
-    margin-left: 50px;
-    width: calc(100% - 50px);
-  }
 }

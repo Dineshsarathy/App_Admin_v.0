@@ -258,13 +258,14 @@ export default function TaskReportList() {
         <div className="task-report-list">
           <ToastContainer />
           <h2>Bug Details</h2>
-          <div className="controls">
-            <input
-              type="search"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="table-props">
+              <input
+                className="search"
+                type="search"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+              />
           
           </div>
           {loading ? (

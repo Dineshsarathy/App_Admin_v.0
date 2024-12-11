@@ -7,6 +7,7 @@ import axios from "axios";
 import Popup from "reactjs-popup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Format date function
 const formatDate = (date) => {
@@ -253,17 +254,23 @@ export default function TaskReportList() {
         <div className="task-report-list">
           <ToastContainer />
           <h2>Task Report List</h2>
-          <div className="controls">
-            <input
-              type="search"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-              <option value="alphabetic">Sort by A-Z</option>
-              <option value="reverse-alphabetic">Sort by Z-A</option>
-            </select>
+          <div className="table-props">
+              <input
+                className="search"
+                type="search"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+              />
+              <div className="filter">
+                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By :</span></label>
+                        <select id="filterDropdown"
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}>
+                          <option value="alphabetic">Alphabetical Order (A-Z)</option>
+                          <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
+                        </select>
+                    </div>
             <Popup
         trigger={<button className="button-add">Add New Task</button>}
         modal

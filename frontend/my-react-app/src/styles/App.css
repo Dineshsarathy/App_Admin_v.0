@@ -15,6 +15,7 @@
   width: 100%;
   box-sizing: border-box;
 }
+ 
 .login-container {
   width: 100%;
   max-width: 600px;
@@ -71,17 +72,6 @@ label {
   display: block;
   margin-bottom: 5px;
 }
- /* search */
-input {
-  width: 25%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-  height: 50px !important;
-
-}
  
 button {
   width: 100%;
@@ -95,7 +85,7 @@ button {
 }
  
 button:hover {
-  background-color: #0056b3;
+  background-color: #8458B3;
 }
  
 .error {
@@ -144,209 +134,16 @@ button svg{
   margin: 0 !important;
   font-size: 20px;
 }
+/* Pagination button */
 button{
   box-sizing: border-box;
   justify-items: center;
   align-content: center;
   border-radius: 50%;
   height: 40px;
-  width: 40px;
+  width: 80px;
   margin: 3px;
 }
 .edit-btn{
   background-color: rgb(9, 134, 9);
-}
-
-button svg{
-  margin: 0 !important;
-  font-size: 20px;
-}
-button{
-  box-sizing: border-box;
-  justify-items: center;
-  align-content: center;
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  margin: 3px;
-}
-.edit-btn{
-  background-color: rgb(9, 134, 9);
-}
-
-/* General styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-  margin-top: 20px;
-}
-
-button { 
-  display: inline-flex; /* Flexbox for alignment */
-  margin-left: 20;
-  align-items: center; /* Vertically center text and icon */
-  justify-content: center; /* Horizontally center content */
-  background-color: #8458B3; /* Vibrant blue background */
-  color: white; /* Text and icon color */
-  border: none; /* No border */
-  padding: 12px 20px; /* Adjust padding for better spacing */
-  border-radius: 8px; /* Rounded corners for modern look */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 16px; /* Text size */
-  font-weight: bold; /* Bold text */
-  width: 200px; /* Set button width */
-  transition: background-color 0.3s, transform 0.2s; /* Smooth hover and active states */
-}
-
-button:hover {
-  background-color: #A020F0; /* Darker blue on hover */
-  transform: scale(1.05); /* Slight scale effect on hover */
-}
-
-button:active {
-  background-color: #A020F0; /* Darkest blue on click */
-  transform: scale(0.98); /* Slight shrinking effect on click */
-}
-
-button:disabled {
-  background-color: #ddd; /* Disabled button color */
-  cursor: not-allowed; /* Disable cursor */
-}
-
-/* Style for the icon */
-button .icon {
-  margin-right: 8px; /* Space between icon and text */
-  font-size: 20px; /* Adjust the icon size */
-}
-
-/* Optional: Additional styling for the text */
-button .text {
-  font-size: 16px; /* Text size */
-}
-
-
-table {
-  width: 100%;
-  margin: 10px ;
-  border-collapse: collapse;
-}
-
-table th,
-table td {
-  padding: 5px;
-  text-align: left;
-  border: 1px solid;
-}
-
-table th {
-  background-color: #8458B3;
-  text-align: center;
-}
-
-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-table td button {
-  margin-right: 10px;
-}
-
-/* Table row actions buttons */
-table td button:first-child {
-  background-color: #28a745; /* Edit button */
-}
-
-table td button:last-child {
-  background-color: #dc3545; /* Delete button */
-}
-
-/* Modal styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 5px;
-  width: 400px;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #333;
-}
-
-.modal input[type="text"],
-.modal input[type="email"],
-.modal input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.modal .modal-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal .modal-buttons button {
-  width: 48%;
-}
-
-.modal .modal-buttons button:last-child {
-  background-color: #6c757d;
-}
-
-.modal .modal-buttons button:first-child {
-  background-color: #007bff;
-}
-
-.modal .modal-buttons button:hover {
-  background-color: #0056b3;
-}
-
-.modal .modal-buttons button:last-child:hover {
-  background-color: #5a6268;
-}
-
-.action-buttons{
-
-  width: 70%;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-input.search {
-  width: 260px;
-  border: 1px solid #a8a8a8 !important;
-  height: 35px !important;
-  border-radius: 20px;
-  display: block;
-  padding: 9px 4px 9px 40px;
-}
-.profiles {
-  align-content: center;
-  box-sizing: border-box;
-  align-items: center;
-  display: flex;
-  justify-content: space-evenly;
 }

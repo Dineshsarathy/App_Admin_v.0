@@ -16,16 +16,7 @@ table {
     background-color: #8458B3;
     text-align: center;
   }
-  
-  table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  table td button {
-    margin-right: 10px;
-  }
-  
-  /* Table row actions buttons */
+ /* Table row actions buttons */
   table td button:first-child {
     background-color: #28a745; /* Edit button */
   }
@@ -34,12 +25,18 @@ table {
     background-color: #dc3545; /* Delete button */
   }
   
-input.search {
-    width: 260px;
-    border: 1px solid #a8a8a8 !important;
-    height: 35px !important;
-    border-radius: 20px;
-    display: block;
-    padding: 9px 4px 9px 40px;
+  .table-props {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
   }
+  
+  .search {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 40%;
+  }
+  
   
