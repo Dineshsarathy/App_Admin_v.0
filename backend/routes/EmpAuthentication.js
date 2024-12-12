@@ -3,6 +3,7 @@ const router = express.Router();
 const Employee= require('../models/Employee');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const blacklist = new Set(); 
 const authenticateToken = require('../middlewares/AuthenticateToken');
 
 router.post('/register', async (req, res) => {
@@ -65,12 +66,30 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+
+// Assuming blacklist is a Set initialized elsewhere in your code.
+
+
 router.post('/logout', authenticateToken, (req, res) => {
-    const token = req.header('Authorization')?.split(' ')[1];
+    const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
     if (token) {
-        blacklist.add(token); // Add token to blacklist
+        blacklist.add(token); // Add token to blacklist (works if blacklist is a Set)
     }
     res.status(200).json({ message: 'Logged out successfully.' });
 });
+const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization');
+    if (blacklist.has(token)) return res.status(403).send('Token is invalid');
+    
+    try {
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = verified;
+      next();
+    } catch (err) {
+      res.status(401).send('Access Denied');
+    }
+  };
 
-module.exports=router;
+
+module.exports = router;
