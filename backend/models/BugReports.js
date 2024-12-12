@@ -16,7 +16,7 @@ const BugReportSchema = new mongoose.Schema({
     },
     Bug_DueDate: {
         type: Date,
-        required: true
+        required: false
     },
     Completed_Date:{
         type: Date,

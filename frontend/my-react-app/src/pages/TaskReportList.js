@@ -297,7 +297,7 @@ export default function TaskReportList() {
               </div>
               <div>
                 <label>Summary:</label>
-                <textarea
+                <input
                   value={newTask.Summary}
                   onChange={(e) => setNewTask({ ...newTask, Summary: e.target.value })}
                   required
@@ -427,6 +427,7 @@ export default function TaskReportList() {
                   required
                 />
                 <button type="submit">Save</button>
+                <button type="cancel">Cancel</button>
               </form>
             </Popup>
           )}

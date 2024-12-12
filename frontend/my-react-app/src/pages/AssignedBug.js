@@ -7,6 +7,7 @@ import axios from "axios";
 import Popup from "reactjs-popup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Format date function
 const formatDate = (date) => {
@@ -111,56 +112,54 @@ export default function TaskReportList() {
       Severity: 'Minor',
       Assigned_To: '',
       Assigned_Date: new Date().toISOString().split('T')[0], // Default to today
+      Bug_DueDate: '',
       Assigned_Due_Date: '', // Empty by default; you can set a default if needed
+      Bug_status: 'Pending',
     });
 
-  // Generate a unique Bug ID
+  // Generate a unique Template ID and Bug ID
   const generateTemplateID = () => `T-${Date.now()}`;
 
   const generateBugID = () => `B-${Math.floor(1000 + Math.random() * 9000)}`;
 
   const handleAddTask = async (e) => {
-
-     // Validate required fields
-  if (!newTask.Template_Name) {
-    toast.error('Template Name is required!');
-    return;
-  }
-  if (!newTask.Assigned_To) {
-    toast.error('Assigned To is required!');
-    return;
-  }
     e.preventDefault();
+  
+    // Validate required fields
+    if (!newTask.Template_Name || !newTask.Assigned_To || !newTask.Bug_DueDate) {
+      toast.error("All required fields must be filled!");
+      return;
+    }
+  
     const task = {
       ...newTask,
       Template_ID: generateTemplateID(),
       Bug_ID: generateBugID(),
     };
-    console.log("Task Payload:", task); // Log the payload
-
+  
     try {
-      await axios.post('http://localhost:8000/api/bugreport', task);
-      toast.success('Task added successfully!');
+      await axios.post("http://localhost:8000/api/bugreport", task);
+      toast.success("BugReport added successfully!");
       fetchData();
       setNewTask({
-        Temp_id: '',
-        Temp_Name: '',
-        Bug_Id: '',
+        Template_ID: '',
+        Template_Name: '',
+        Bug_ID: '',
         Summary: '',
-        ScreenShot: '',
         Priority: 'Low',
         Severity: 'Minor',
-        Assigned_to: '',
-        Assigned_date: new Date().toISOString().split('T')[0],
-        Bug_DueDate: '',
+        Assigned_To: '',
+        Assigned_Date: new Date().toISOString().split('T')[0],
+        Bug_DueDate: '', // Reset this field
         Completed_Date: new Date().toISOString().split('T')[0],
         Bug_status: 'Pending',
       });
     } catch (error) {
-      console.error('Error adding task:', error.response?.data || error.message);
-      toast.error(error.response?.data?.message || 'Failed to add task.');
+      console.error("Error adding bug report:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Failed to add bug report.");
     }
   };
+  
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
@@ -170,8 +169,8 @@ export default function TaskReportList() {
       const response = await axios.get("http://localhost:8000/api/bugreport");
       setData(response.data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
-      toast.error("Failed to load tasks.");
+      console.error("Error fetching bug:", error);
+      toast.error("Failed to load bug.");
     }
     setLoading(false);
   }, []);
@@ -208,12 +207,12 @@ export default function TaskReportList() {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:8000/api/bugreport/${editingTask._id}`, editingTask);
-      toast.success("Task updated successfully!");
+      toast.success("BugDetails updated successfully!");
       setIsEditPopupOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Error updating task:", error);
-      toast.error("Failed to update task.");
+      console.error("Error updating BugDetails:", error);
+      toast.error("Failed to update BugDetails.");
     }
   };
 
@@ -224,8 +223,8 @@ export default function TaskReportList() {
         toast.success(`${task.Template_Name} deleted successfully!`);
         fetchData();
       } catch (error) {
-        console.error("Error deleting task:", error);
-        toast.error("Failed to delete task.");
+        console.error("Error deleting BugDetails:", error);
+        toast.error("Failed to delete BugDetails.");
       }
     }
   };
@@ -266,6 +265,125 @@ export default function TaskReportList() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               />
+              <div className="filter">
+                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By :</span></label>
+                        <select id="filterDropdown"
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}>
+                          <option value="alphabetic">Alphabetical Order (A-Z)</option>
+                          <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
+                        </select>
+                    </div>
+            <Popup
+        trigger={
+          <button className="button-add">
+            <Icon icon="carbon:add-alt" style={{ fontSize: "23px" }} />
+            <span>Add New</span>
+          </button>
+        }
+        modal
+        contentStyle={{ padding: '20px', borderRadius: '8px', width: '400px' }}
+      >
+        {(close) => (
+          <div>
+            <h2>Add New Task</h2>
+            <form onSubmit={(e) => { handleAddTask(e); close(); }}>
+              <div>
+                <label>Template Name:</label>
+                <input
+                  type="text"
+                  value={newTask.Template_Name}
+                  onChange={(e) => setNewTask({ ...newTask, Template_Name: e.target.value })}
+                  required
+                  placeholder="Enter Template Name"
+                />
+              </div>
+              <div>
+                <label>Summary:</label>
+                <input
+                  value={newTask.Summary}
+                  onChange={(e) => setNewTask({ ...newTask, Summary: e.target.value })}
+                  required
+                  placeholder="Enter Summary"
+                />
+              </div>
+              <div>
+                <label>Priority:</label>
+                <select
+                  value={newTask.Priority}
+                  onChange={(e) => setNewTask({ ...newTask, Priority: e.target.value })}
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div>
+                <label>Severity:</label>
+                <select
+                  value={newTask.Severity}
+                  onChange={(e) => setNewTask({ ...newTask, Severity: e.target.value })}
+                >
+                  <option value="Minor">Minor</option>
+                  <option value="Major">Major</option>
+                  <option value="Critical">Critical</option>
+                </select>
+              </div>
+              <div>
+                <label>Assigned To:</label>
+                <input
+                  type="text"
+                  value={newTask.Assigned_To}
+                  onChange={(e) => setNewTask({ ...newTask, Assigned_To: e.target.value })}
+                  required
+                  placeholder="Enter Assignee"
+                />
+                <div>
+                  <label>Bug Due Date:</label>
+                  <input
+                    type="date"
+                    value={newTask.Bug_DueDate}
+                    onChange={(e) => setNewTask({ ...newTask, Bug_DueDate: e.target.value })}
+                    required
+                    placeholder="Enter Bug Due Date"
+                  />
+                </div>
+                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <button
+                            type="submit"
+                            style={{
+                              backgroundColor: '#28a745',
+                              color: '#fff',
+                              padding: '10px 20px',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              width: '30%',
+                            }}
+                          >
+                            Add task
+                          </button>
+                          <button
+                            type="button"
+                            onClick={close}
+                            style={{
+                              backgroundColor: '#dc3545',
+                              color: '#fff',
+                              padding: '10px 20px',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              width: '30%',
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                        </div>
+                      </form>
+                    </div>
+        )}
+      </Popup>
           
           </div>
           {loading ? (
