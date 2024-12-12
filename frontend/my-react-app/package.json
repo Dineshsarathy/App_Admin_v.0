@@ -10,6 +10,7 @@
     "@mui/material": "^6.1.10",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
+    "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "hooks": "^0.3.2",
     "jszip": "^3.10.1",

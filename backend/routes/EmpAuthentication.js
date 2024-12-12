@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Employee= require('../models/Employee')
+const Employee= require('../models/Employee');
+const bcrypt = require('bcrypt')
+const authenticateToken = require('../middlewares/AuthenticateToken');
+
 router.post('/register', async (req, res) => {
     const { Employee_id, Employee_name, Password, Phone_number, Email_id, Mac_address } = req.body;
 
@@ -13,7 +16,9 @@ router.post('/register', async (req, res) => {
         if (existingEmployee) return res.status(400).json({ message: 'Employee already exists.' });
 
         // Hash the password
-        const hashedPassword = await bcrypt.hash(Password, 10);
+        const hashedPassword = await bcrypt.hash(Password, 10).catch(err => {
+            throw new Error('Error hashing password');
+        });
 
         // Create a new employee
         const newEmployee = new Employee({
@@ -28,7 +33,8 @@ router.post('/register', async (req, res) => {
         await newEmployee.save();
         res.status(201).json({ message: 'Employee registered successfully.' });
     } catch (error) {
-        res.status(500).json({ message: 'Error registering employee.', error });
+        console.error('Error during registration:', error);
+        res.status(500).json({ message: 'Error registering employee.', error: error.message });
     }
 });
 
@@ -65,3 +71,5 @@ router.post('/logout', authenticateToken, (req, res) => {
     }
     res.status(200).json({ message: 'Logged out successfully.' });
 });
+
+module.exports=router;
