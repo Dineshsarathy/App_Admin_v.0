@@ -2,19 +2,18 @@
 /* Dashboard Container */
 .dashboardlist {
     /* margin-left: 20%; */ /* Match the sidebar's width */
-    width: 80%; /* Remaining space for the dashboard */
+    width: 100%; /* Remaining space for the dashboard */
     /* margin: 0 auto;  *//* Center align the dashboard */
-    /* padding: 20px */; /* Padding around the content */
     box-sizing: border-box; /* Include padding in width calculations */
     display: flex;
     flex-direction: column;
     max-height: 700px;
     margin-right: 26px;
+   
   }
   
   
   .dashboard-content {
-    padding: 20px;
     max-height: 700px !important;
   }
   

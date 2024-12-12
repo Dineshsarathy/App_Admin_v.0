@@ -272,7 +272,12 @@ export default function TaskReportList() {
                         </select>
                     </div>
             <Popup
-        trigger={<button className="button-add">Add New Task</button>}
+        trigger={
+          <button className="button-add">
+            <Icon icon="carbon:add-alt" style={{ fontSize: "23px" }} />
+            <span>Add New</span>
+          </button>
+        }
         modal
         contentStyle={{ padding: '20px', borderRadius: '8px', width: '400px' }}
       >
