@@ -20,12 +20,6 @@ export default function SideBar({ isCollapsed }){
                     </NavLink>
                 </li>
                 <li className="menu-item">
-                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/employee-list'}>
-                <span><i class="fa-solid fa-user-tie"></i></span>
-                {!isCollapsed && <span>Employee List</span>} 
-                    </NavLink>
-                </li>
-                <li className="menu-item">
               <NavLink 
                 className={({ isActive }) => (isActive ? 'active-link' : 'Link')} 
                 to="/template-list"
@@ -41,27 +35,9 @@ export default function SideBar({ isCollapsed }){
                     </NavLink>
                 </li>
                 <li className="menu-item">
-                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/client-list'}>
+                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/bug-report'}>
                 <span><i class="fa-solid fa-users-rectangle"></i></span>
-                {!isCollapsed && <span>Client list</span>}
-                    </NavLink>
-                </li>
-                <li className="menu-item">
-                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/template-admins'}>
-                <span><i class="fa-solid fa-user-pen"></i></span>
-                {!isCollapsed && <span>Template Admin</span>}
-                    </NavLink>
-                </li>
-                <li className="menu-item">
-                <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/hosted-list'}>
-                <span><i class="fa-solid fa-globe"></i></span>
-                {!isCollapsed && <span>Hosted Sites</span>}
-                    </NavLink>
-                </li> 
-                 <li className="menu-item">
-                 <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/approvals'}>
-                <span><i class="fa-solid fa-folder"></i></span>
-                {!isCollapsed && <span>Template Approvals</span>}
+                {!isCollapsed && <span>Assigned Bug</span>}
                     </NavLink>
                 </li>
             </ul>

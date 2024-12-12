@@ -14,12 +14,13 @@ const formatDate = (date) => {
   return format(new Date(date), 'MM/dd/yyyy'); // Formatting date to MM/DD/YYYY
 };
 
-const StylishTable = ({ data, columns, handleEdit, handleDelete }) => (
+const StylishTable = ({ data, columns, handleEdit, handleDelete  }) => (
   <table>
     <thead>
       <tr>
         {columns.map((col) => (
-          <th key={col.accessor}>{col.header}</th>
+          <th key={col.accessor}>{col.header}
+          </th>
         ))}
       </tr>
     </thead>
@@ -92,14 +93,14 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-export default function TaskReportList() {
+export default function AssignedBug() {
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState("alphabetic");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
@@ -120,27 +121,59 @@ export default function TaskReportList() {
   // Generate a unique Template ID and Bug ID
   const generateTemplateID = () => `T-${Date.now()}`;
 
-  const generateBugID = () => `B-${Math.floor(1000 + Math.random() * 9000)}`;
+  const generateBugID = () => {
+    const bugID = `B-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    return bugID;
+  };
 
   const handleAddTask = async (e) => {
     e.preventDefault();
-  
-    // Validate required fields
-    if (!newTask.Template_Name || !newTask.Assigned_To || !newTask.Bug_DueDate) {
-      toast.error("All required fields must be filled!");
-      return;
-    }
-  
     const task = {
       ...newTask,
       Template_ID: generateTemplateID(),
       Bug_ID: generateBugID(),
     };
+    console.log("Task Payload:", task); // Log the payload
+
+  
+    // Validate required fields
+    // if (!newTask.Template_Name) {
+    //   toast.error('Template Name is required!');
+    //   return;
+    // }
+    // if (!newTask.Assigned_To) {
+    //   toast.error('Assigned To is required!');
+    //   return;
+    // }
+  
+    // Generate Bug_ID only if it's not already set (if the user has not provided one)
+    if (!newTask.Bug_ID) {
+      const generatedBugID = generateBugID();  // Generate a unique Bug ID
+      if (!generatedBugID) {
+        toast.error("Failed to generate Bug ID");
+        return;
+      }
+      newTask.Bug_ID = generatedBugID;  // Assign the generated Bug ID
+    }
+  
+    // Generate Template_ID if it's not set
+    if (!newTask.Template_ID) {
+      newTask.Template_ID = generateTemplateID();
+    }
+  
+  
   
     try {
-      await axios.post("http://localhost:8000/api/bugreport", task);
-      toast.success("BugReport added successfully!");
+      // Log the task before submission
+      console.log("Task Payload:", task);
+  
+      // Send POST request to add the bug
+      await axios.post('http://localhost:8000/api/bugreport', task);
+  
+      toast.success('Task added successfully!');
       fetchData();
+  
+      // Reset the form after successful submission
       setNewTask({
         Template_ID: '',
         Template_Name: '',
@@ -150,13 +183,13 @@ export default function TaskReportList() {
         Severity: 'Minor',
         Assigned_To: '',
         Assigned_Date: new Date().toISOString().split('T')[0],
-        Bug_DueDate: '', // Reset this field
+        Bug_DueDate: '',
         Completed_Date: new Date().toISOString().split('T')[0],
         Bug_status: 'Pending',
       });
     } catch (error) {
-      console.error("Error adding bug report:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Failed to add bug report.");
+      console.error('Error adding bug:', error.response?.data || error.message);
+      toast.error(error.response?.data?.message || 'Failed to add Bug.');
     }
   };
   
@@ -197,7 +230,7 @@ export default function TaskReportList() {
     }
     setSortedData(sorted);
   }, [sortOption, data]);
-
+  
   const handleEdit = (task) => {
     setEditingTask(task);
     setIsEditPopupOpen(true);
@@ -235,6 +268,11 @@ export default function TaskReportList() {
     currentPage * itemsPerPage
   );
 
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value)); // Update items per page
+    setCurrentPage(1); // Reset to the first page
+  };
+
   const columns = [
     { header: "Template Id", accessor: "Temp_id" },
     { header: "Template Name", accessor: "Temp_Name" },
@@ -266,14 +304,24 @@ export default function TaskReportList() {
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               />
               <div className="filter">
-                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By :</span></label>
-                        <select id="filterDropdown"
+                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By items:</span></label>
+                        {/* <select id="filterDropdown"
                         value={sortOption}
                         onChange={(e) => setSortOption(e.target.value)}>
                           <option value="alphabetic">Alphabetical Order (A-Z)</option>
                           <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
-                        </select>
+                        </select> */}
                     </div>
+              <div className="items-per-page">
+              <label>
+                <select  id="filterDropdown" value={itemsPerPage} onChange={handleItemsPerPageChange}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </select>
+              </label>
+            </div>
             <Popup
         trigger={
           <button className="button-add">
@@ -286,14 +334,14 @@ export default function TaskReportList() {
       >
         {(close) => (
           <div>
-            <h2>Add New Task</h2>
+            <h2>Add New BugDetails</h2>
             <form onSubmit={(e) => { handleAddTask(e); close(); }}>
               <div>
                 <label>Template Name:</label>
                 <input
                   type="text"
-                  value={newTask.Template_Name}
-                  onChange={(e) => setNewTask({ ...newTask, Template_Name: e.target.value })}
+                  value={newTask.Temp_Name}
+                  onChange={(e) => setNewTask({ ...newTask, Temp_Name: e.target.value })}
                   required
                   placeholder="Enter Template Name"
                 />
@@ -333,8 +381,8 @@ export default function TaskReportList() {
                 <label>Assigned To:</label>
                 <input
                   type="text"
-                  value={newTask.Assigned_To}
-                  onChange={(e) => setNewTask({ ...newTask, Assigned_To: e.target.value })}
+                  value={newTask.Assigned_to}
+                  onChange={(e) => setNewTask({ ...newTask, Assigned_to: e.target.value })}
                   required
                   placeholder="Enter Assignee"
                 />
@@ -361,7 +409,7 @@ export default function TaskReportList() {
                               width: '30%',
                             }}
                           >
-                            Add task
+                            Add 
                           </button>
                           <button
                             type="button"
@@ -440,7 +488,29 @@ export default function TaskReportList() {
                   placeholder="Assigned To"
                   required
                 />
-                <button type="submit">Save</button>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <button type="submit" style={{
+                              backgroundColor: '#28a745',
+                              color: '#fff',
+                              padding: '10px 20px',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              width: '80px',
+                            }}>Save</button>
+                <button type="button" onClick={() => setIsEditPopupOpen(false)}
+                  style={{
+                    backgroundColor: '#dc3545',
+                    color: '#fff',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    width: '80px',
+                  }}>
+                  Cancel
+                </button>
+              </div>
               </form>
             </Popup>
           )}
