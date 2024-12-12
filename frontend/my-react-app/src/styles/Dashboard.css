@@ -1,20 +1,18 @@
 
 /* Dashboard Container */
 .dashboardlist {
-    /* margin-left: 20%; */ /* Match the sidebar's width */
     width: 100%; /* Remaining space for the dashboard */
-    /* margin: 0 auto;  *//* Center align the dashboard */
     box-sizing: border-box; /* Include padding in width calculations */
     display: flex;
     flex-direction: column;
-    max-height: 700px;
+    height: 100vh;
     margin-right: 26px;
-   
-  }
+    grid-auto-flow: column;
+   }
   
   
   .dashboard-content {
-    max-height: 700px !important;
+    padding: 20px;
   }
   
   /* Widgets Section */
@@ -37,6 +35,7 @@
   
   .widget:hover {
     transform: translateY(-5px); /* Hover effect for widgets */
+    background-color: aquamarine;
   }
   
   .widget h3 {
@@ -65,6 +64,7 @@
     font-weight: bold;
     text-align: center;
     margin: 0; /* Remove default margin */
+    margin-top: 20px;
   }
   
   .chart {
@@ -76,6 +76,8 @@
     width: 100%; /* Make sure charts fit the container */
     overflow: hidden; /* Prevent overflow */
     box-sizing: border-box;
+    margin-top: 20px;
+    
   }
   
   /* Goal Tracker Section */
@@ -138,6 +140,7 @@
   
     .charts {
       grid-template-columns: 1fr; /* Stack charts in one column */
+      max-width: 300px;
     }
   
     .goal-trackers {

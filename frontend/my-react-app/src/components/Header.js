@@ -8,7 +8,7 @@ export default function Header({ toggleSidebar }) {
     <div className="header">
         <div className="menu-side">
             <div>
-                <Icon icon="ci:menu-alt-03" style={{ fontSize: '38px', }} onClick={toggleSidebar} />
+                <Icon icon="ci:menu-alt-03" style={{ fontSize: '40px',marginLeft:'-20px',color:'white' }} onClick={toggleSidebar} />
             </div>
         </div>
         <div className="profiles">

@@ -1,175 +1,120 @@
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 import React, { useState, useEffect, useCallback } from "react";
-import { FaPen, FaTrashAlt } from "react-icons/fa"; // Importing icons
-import { format } from 'date-fns'; // Importing date-fns for date formatting
 import axios from "axios";
+import { Icon } from "@iconify/react";
 import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Icon } from "@iconify/react/dist/iconify.js";
 
-// Format date function
-const formatDate = (date) => {
-  return format(new Date(date), 'MM/dd/yyyy'); // Formatting date to MM/DD/YYYY
-};
-
-const StylishTable = ({ data, columns, handleEdit, handleDelete }) => (
-  <table>
-    <thead>
-      <tr>
-        {columns.map((col) => (
-          <th key={col.accessor}>{col.header}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {data.length === 0 ? (
-        <tr>
-          <td colSpan={columns.length}>No data found</td>
-        </tr>
-      ) : (
-        data.map((row) => (
-          <tr key={row._id}>
-            {columns.map((col) => (
-              <td key={col.accessor}>
-                {col.accessor === "actions" ? (
-                  <div className="action-buttons">
-                    <button
-                      className="edit"
-                      style={{ backgroundColor: "rgb(9, 134, 9)" }}
-                      onClick={() => handleEdit(row)}
-                    >
-                      <FaPen className="icon" style={{ fontSize: "14px", margin: 0 }} />
-                    </button>
-                    <button
-                      className="delete"
-                      style={{ backgroundColor: "red" }}
-                      onClick={() => handleDelete(row)}
-                    >
-                      <FaTrashAlt className="icon" style={{ fontSize: "14px" }} />
-                    </button>
-                  </div>
-                ) : (
-                  <span>
-                    {col.accessor === "Status"
-                      ? row[col.accessor]
-                        ? "Completed"
-                        : "Pending"
-                      : col.accessor === "Assigned_Date" || col.accessor === "Completed_Date"
-                      ? formatDate(row[col.accessor])
-                      : row[col.accessor]}
-                  </span>
-                )}
-              </td>
+const StylishTable = ({ data, columns, handleEdit, handleDelete }) => {
+  return (
+    <div className="table-container">
+      <table className="stylish-table">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column.accessor}>{column.header}</th>
             ))}
           </tr>
-        ))
-      )}
-    </tbody>
-  </table>
-);
-
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    }
-  };
-
-  return (
-    <div className="pagination">
-      <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-        Previous
-      </button>
-      <span>
-        {currentPage} of {totalPages}
-      </span>
-      <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-        Next
-      </button>
+        </thead>
+        <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length}>No task reports found</td>
+            </tr>
+          ) : (
+            data.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((column) =>
+                  column.accessor === "actions" ? (
+                    <td key="actions">
+                      <div className="action-buttons">
+                        <button
+                          className="edit"
+                          style={{ backgroundColor: "rgb(9, 134, 9)" }}
+                          onClick={() => handleEdit(row)}
+                        >
+                          <Icon
+                            icon="fa6-solid:file-pen"
+                            style={{ fontSize: "14px", margin: 0 }}
+                          />
+                        </button>
+                        <button
+                          className="delete"
+                          style={{ backgroundColor: "red" }}
+                          onClick={() => handleDelete(row)}
+                        >
+                          <Icon
+                            icon="streamline:recycle-bin-2"
+                            style={{ fontSize: "14px" }}
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  ) : (
+                    <td key={column.accessor}>{row[column.accessor]}</td>
+                  )
+                )}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
 
+const Pagination = ({ currentPage, totalPages, onPageChange }) => (
+  <div className="pagination">
+    <button
+      disabled={currentPage === 1}
+      onClick={() => onPageChange(currentPage - 1)}
+    >
+      <Icon icon="material-symbols-light:fast-rewind" style={{ fontSize: "23px" }} />
+      Prev
+    </button>
+    <span>
+      Page {currentPage} of {totalPages}
+    </span>
+    <button
+      disabled={currentPage === totalPages}
+      onClick={() => onPageChange(currentPage + 1)}
+    >
+      Next
+      <Icon icon="material-symbols-light:fast-forward" style={{ fontSize: "23px" }} />
+    </button>
+  </div>
+);
+
 export default function TaskReportList() {
-  const [data, setData] = useState([]);
-  const [sortedData, setSortedData] = useState([]);
+  const [taskReports, setTaskReports] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState("alphabetic");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
+  const [editingTaskReport, setEditingTaskReport] = useState(null);
+  const [newTaskReport, setNewTaskReport] = useState({
+    Template_ID: "",
+    Template_Name: "",
+    Bug_ID: "",
+    Summary: "",
+    Priority: "",
+    Status: "",
+    Assigned_To: "",
+  });
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [newTask, setNewTask] = useState({
-      Template_ID: '',
-      Template_Name: '',
-      Bug_ID: '',
-      Summary: '',
-      Priority: 'Low',
-      Severity: 'Minor',
-      Assigned_To: '',
-      Assigned_Date: new Date().toISOString().split('T')[0], // Default to today
-      Assigned_Due_Date: '', // Empty by default; you can set a default if needed
-    });
-
-  // Generate a unique Bug ID
-  const generateTemplateID = () => `T-${Date.now()}`;
-
-  const generateBugID = () => `B-${Math.floor(1000 + Math.random() * 9000)}`;
-
-  const handleAddTask = async (e) => {
-
-     // Validate required fields
-  if (!newTask.Template_Name) {
-    toast.error('Template Name is required!');
-    return;
-  }
-  if (!newTask.Assigned_To) {
-    toast.error('Assigned To is required!');
-    return;
-  }
-    e.preventDefault();
-    const task = {
-      ...newTask,
-      Template_ID: generateTemplateID(),
-      Bug_ID: generateBugID(),
-    };
-    console.log("Task Payload:", task); // Log the payload
-
-    try {
-      await axios.post('http://localhost:8000/api/taskreports', task);
-      toast.success('Task added successfully!');
-      fetchData();
-      setNewTask({
-        Template_ID: '',
-        Template_Name: '',
-        Bug_ID: '',
-        Summary: '',
-        Priority: 'Low',
-        Severity: 'Minor',
-        Assigned_To: '',
-        Assigned_Date: new Date().toISOString().split('T')[0],
-        Assigned_Due_Date: '',
-      });
-    } catch (error) {
-      console.error('Error adding task:', error.response?.data || error.message);
-      toast.error(error.response?.data?.message || 'Failed to add task.');
-    }
-  };
-
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const itemsPerPage = 5;
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:8000/api/taskreports");
-      setData(response.data);
+      setTaskReports(response.data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
-      toast.error("Failed to load tasks.");
+      console.error("Error fetching task reports:", error);
     }
     setLoading(false);
   }, []);
@@ -178,261 +123,229 @@ export default function TaskReportList() {
     fetchData();
   }, [fetchData]);
 
-  useEffect(() => {
-    const filteredData = data.filter((task) =>
-      Object.values(task).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-    setSortedData(filteredData);
-  }, [searchTerm, data]);
-
-  useEffect(() => {
-    const sorted = [...data];
-    if (sortOption === "alphabetic") {
-      sorted.sort((a, b) => (a.Template_Name || "").localeCompare(b.Template_Name || ""));
-    } else if (sortOption === "reverse-alphabetic") {
-      sorted.sort((a, b) => (b.Template_Name || "").localeCompare(a.Template_Name || ""));
+  const handleAddNew = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8000/api/taskreports", newTaskReport);
+      setTaskReports([...taskReports, response.data]);
+      toast.success("New Task Report added successfully!");
+      setIsAddPopupOpen(false);
+      setNewTaskReport({
+        Template_ID: "",
+        Template_Name: "",
+        Bug_ID: "",
+        Summary: "",
+        Priority: "",
+        Status: "",
+        Assigned_To: "",
+      });
+    } catch (error) {
+      console.error("Error adding task report:", error);
+      toast.error("Failed to add task report. Please try again.");
     }
-    setSortedData(sorted);
-  }, [sortOption, data]);
+  };
 
-  const handleEdit = (task) => {
-    setEditingTask(task);
+  const handleEdit = (taskReport) => {
+    setEditingTaskReport(taskReport);
     setIsEditPopupOpen(true);
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8000/api/taskreports/${editingTask._id}`, editingTask);
-      toast.success("Task updated successfully!");
+      await axios.put(
+        `http://localhost:8000/api/taskreports/${editingTaskReport._id}`,
+        editingTaskReport
+      );
+      toast.success("Task Report updated successfully!");
       setIsEditPopupOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Error updating task:", error);
-      toast.error("Failed to update task.");
+      console.error("Error updating task report:", error);
+      toast.error("Failed to update task report. Please try again.");
     }
   };
 
-  const handleDelete = async (task) => {
-    if (window.confirm(`Are you sure you want to delete ${task.Template_Name}?`)) {
+  const handleDelete = async (taskReport) => {
+    if (window.confirm(`Are you sure you want to delete this task report?`)) {
       try {
-        await axios.delete(`http://localhost:8000/api/taskreports/${task._id}`);
-        toast.success(`${task.Template_Name} deleted successfully!`);
+        await axios.delete(`http://localhost:8000/api/taskreports/${taskReport._id}`);
+        toast.success("Task Report deleted successfully!");
         fetchData();
       } catch (error) {
-        console.error("Error deleting task:", error);
-        toast.error("Failed to delete task.");
+        console.error("Error deleting task report:", error);
+        toast.error("Failed to delete the task report. Please try again.");
       }
     }
   };
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-  const paginatedData = sortedData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const handleSearch = () => {
+    const filteredReports = taskReports.filter((report) =>
+      Object.values(report).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    return filteredReports;
+  };
 
   const columns = [
-    { header: "Template Id", accessor: "Template_ID" },
+    { header: "Template ID", accessor: "Template_ID" },
     { header: "Template Name", accessor: "Template_Name" },
     { header: "Bug ID", accessor: "Bug_ID" },
     { header: "Summary", accessor: "Summary" },
     { header: "Priority", accessor: "Priority" },
-    { header: "Severity", accessor: "Severity" },
     { header: "Status", accessor: "Status" },
     { header: "Assigned To", accessor: "Assigned_To" },
     { header: "Actions", accessor: "actions" },
   ];
 
+  const sortedAndFilteredData = handleSearch().sort((a, b) => {
+    if (sortOption === "alphabetic") {
+      return a.Template_Name.localeCompare(b.Template_Name);
+    }
+    return b.Template_Name.localeCompare(a.Template_Name);
+  });
+
+  const totalPages = Math.ceil(sortedAndFilteredData.length / itemsPerPage);
+  const paginatedData = sortedAndFilteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <>
-      <SideBar isCollapsed={isCollapsed} />
-      <div className={`Tasklist ${isCollapsed ? "Task-collapsed" : ""}`}>
-        <Header toggleSidebar={toggleSidebar} />
-        <div className="task-report-list">
-          <ToastContainer />
-          <h2>Task Report List</h2>
-          <div className="table-props">
-              <input
-                className="search"
-                type="search"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-              />
-              <div className="filter">
-                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By :</span></label>
-                        <select id="filterDropdown"
-                        value={sortOption}
-                        onChange={(e) => setSortOption(e.target.value)}>
-                          <option value="alphabetic">Alphabetical Order (A-Z)</option>
-                          <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
-                        </select>
-                    </div>
-            <Popup
-        trigger={
-          <button className="button-add">
-            <Icon icon="carbon:add-alt" style={{ fontSize: "23px" }} />
-            <span>Add New</span>
+    {/* <SideBar isCollapsed={isCollapsed}/>
+    <div className={`Emplist ${isCollapsed ? "emp-collapsed" : ""}`}>
+      <Header toggleSidebar={toggleSidebar} /> */}
+    
+    
+      <ToastContainer />
+      <div>
+        <h2>Task Reports</h2>
+        <div className="table-controls">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="alphabetic">Alphabetical Order (A-Z)</option>
+            <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
+          </select>
+          <button
+            className="add-button"
+            onClick={() => setIsAddPopupOpen(true)}
+          >
+            Add New Template
           </button>
-        }
-        modal
-        contentStyle={{ padding: '20px', borderRadius: '8px', width: '400px' }}
-      >
-        {(close) => (
+        </div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <StylishTable
+              data={paginatedData}
+              columns={columns}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        )}
+      </div>
+
+      {/* Add New Template Popup */}
+      {isAddPopupOpen && (
+        <Popup open={isAddPopupOpen} onClose={() => setIsAddPopupOpen(false)} modal>
           <div>
-            <h2>Add New Task</h2>
-            <form onSubmit={(e) => { handleAddTask(e); close(); }}>
+            <h3>Add New Task Report</h3>
+            <form onSubmit={handleAddNew}>
+              <div>
+                <label>Template ID:</label>
+                <input
+                  type="text"
+                  value={newTaskReport.Template_ID}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Template_ID: e.target.value })
+                  }
+                  required
+                />
+              </div>
               <div>
                 <label>Template Name:</label>
                 <input
                   type="text"
-                  value={newTask.Template_Name}
-                  onChange={(e) => setNewTask({ ...newTask, Template_Name: e.target.value })}
+                  value={newTaskReport.Template_Name}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Template_Name: e.target.value })
+                  }
                   required
-                  placeholder="Enter Template Name"
+                />
+              </div>
+              <div>
+                <label>Bug ID:</label>
+                <input
+                  type="text"
+                  value={newTaskReport.Bug_ID}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Bug_ID: e.target.value })
+                  }
                 />
               </div>
               <div>
                 <label>Summary:</label>
                 <input
-                  value={newTask.Summary}
-                  onChange={(e) => setNewTask({ ...newTask, Summary: e.target.value })}
-                  required
-                  placeholder="Enter Summary"
+                  type="text"
+                  value={newTaskReport.Summary}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Summary: e.target.value })
+                  }
                 />
               </div>
               <div>
                 <label>Priority:</label>
-                <select
-                  value={newTask.Priority}
-                  onChange={(e) => setNewTask({ ...newTask, Priority: e.target.value })}
-                >
-                  <option value="Low">Low</option>
-                  <option value="Medium">Medium</option>
-                  <option value="High">High</option>
-                </select>
+                <input
+                  type="text"
+                  value={newTaskReport.Priority}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Priority: e.target.value })
+                  }
+                />
               </div>
               <div>
-                <label>Severity:</label>
-                <select
-                  value={newTask.Severity}
-                  onChange={(e) => setNewTask({ ...newTask, Severity: e.target.value })}
-                >
-                  <option value="Minor">Minor</option>
-                  <option value="Major">Major</option>
-                  <option value="Critical">Critical</option>
-                </select>
+                <label>Status:</label>
+                <input
+                  type="text"
+                  value={newTaskReport.Status}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Status: e.target.value })
+                  }
+                />
               </div>
               <div>
                 <label>Assigned To:</label>
                 <input
                   type="text"
-                  value={newTask.Assigned_To}
-                  onChange={(e) => setNewTask({ ...newTask, Assigned_To: e.target.value })}
-                  required
-                  placeholder="Enter Assignee"
-                />
-                <label htmlFor="Assigned_Due_Date">Assigned Due Date</label>
-                <input
-                  type="date"
-                  id="Assigned_Due_Date"
-                  value={newTask.Assigned_Due_Date}
-                  onChange={(e) => setNewTask({ ...newTask, Assigned_Due_Date: e.target.value })}
-                  required
+                  value={newTaskReport.Assigned_To}
+                  onChange={(e) =>
+                    setNewTaskReport({ ...newTaskReport, Assigned_To: e.target.value })
+                  }
                 />
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <button
-                            type="submit"
-                            style={{
-                              backgroundColor: '#28a745',
-                              color: '#fff',
-                              padding: '10px 20px',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              width: '30%',
-                            }}
-                          >
-                            Add task
-                          </button>
-                          <button
-                            type="button"
-                            onClick={close}
-                            style={{
-                              backgroundColor: '#dc3545',
-                              color: '#fff',
-                              padding: '10px 20px',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              width: '30%',
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-        )}
-      </Popup>
+              <button type="submit">Add</button>
+              <button onClick={() => setIsAddPopupOpen(false)}>Cancel</button>
+            </form>
           </div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <>
-              <StylishTable
-                data={paginatedData}
-                columns={columns}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
-            </>
-          )}
-
-          {isEditPopupOpen && (
-            <Popup open={isEditPopupOpen} onClose={() => setIsEditPopupOpen(false)} modal>
-              <form onSubmit={handleSave}>
-                <h3>Edit Task</h3>
-                <label>Template Name:</label>
-                <input
-                  type="text"
-                  value={editingTask?.Template_Name}
-                  onChange={(e) => setEditingTask({ ...editingTask, Template_Name: e.target.value })}
-                  placeholder="Template Name"
-                  required
-                />
-                <label>Summary:</label>
-                <input
-                  type="text"
-                  value={editingTask?.Summary}
-                  onChange={(e) => setEditingTask({ ...editingTask, Summary: e.target.value })}
-                  placeholder="Summary"
-                  required
-                />
-                <label>Assigned To:</label>
-                <input
-                  type="text"
-                  value={editingTask?.Assigned_To}
-                  onChange={(e) => setEditingTask({ ...editingTask, Assigned_To: e.target.value })}
-                  placeholder="Assigned To"
-                  required
-                />
-                <button type="submit">Save</button>
-                <button type="cancel">Cancel</button>
-              </form>
-            </Popup>
-          )}
-        </div>
-      </div>
+        </Popup>
+      )}
     </>
   );
 }

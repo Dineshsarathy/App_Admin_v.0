@@ -12,7 +12,7 @@ const taskSchema = new mongoose.Schema(
     Status: { 
       type: String, 
       required: true, 
-      enum: ['Pending',  'Completed'], // Status options
+      enum: ['Pending', 'In Progress', 'Completed', 'Delayed'], // Status options
       default: 'Pending' 
     }, 
     Assigned_To: { type: String, required: true }, // Name or ID of the person assigned to
