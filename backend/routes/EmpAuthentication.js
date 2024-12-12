@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Employee= require('../models/Employee');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const authenticateToken = require('../middlewares/AuthenticateToken');
 
 router.post('/register', async (req, res) => {
@@ -54,13 +55,13 @@ router.post('/login', async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { _id: employee._id, Employee_id: employee.Employee_id, Email_id: employee.Email_id },
-            JWT_SECRET,
+            process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
 
         res.status(200).json({ message: 'Login successful.', token });
     } catch (error) {
-        res.status(500).json({ message: 'Error logging in.', error });
+        res.status(500).json({ message: 'Error logging in.', error:error.message });
     }
 });
 
