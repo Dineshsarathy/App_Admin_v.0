@@ -257,6 +257,7 @@ const handleSave = async (e) => {
           <div className="page-list">
             <div className="table-props">
               <input
+              
                 className="search"
                 type="search"
                 placeholder="Search..."
@@ -274,15 +275,15 @@ const handleSave = async (e) => {
                     </div>
                     <Popup trigger={
                               <button className="button-add">
-                                <Icon icon="carbon:add-alt" style={{ fontSize: "23px" }} />
+                                <Icon icon="carbon:add-alt" style={{ fontSize: "20px" }} />
                                 <span>Add New</span>
                               </button>
                             }
                             modal
                             contentStyle={{
                               top: '15%',
-                              width: '40%',
-                              height: '450px',
+                              width: '100%',
+                              height: '400px',
                               margin: '0 auto',
                               padding: '20px',
                               border: '1px solid #ccc',
@@ -324,7 +325,7 @@ const handleSave = async (e) => {
                             id="name"
                             name="name"
                             required
-                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ marginBottom: '15px' }}>
@@ -336,7 +337,7 @@ const handleSave = async (e) => {
                              id="category"
                              name="category"
                             required
-                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ marginBottom: '15px' }}>
@@ -348,7 +349,7 @@ const handleSave = async (e) => {
                             id="email"
                             name="email"
                             required
-                            style={{ width: '90%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                           />
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -413,7 +414,7 @@ const handleSave = async (e) => {
         contentStyle={{
           top: '15%',
           width: '40%',
-          height: '450px',
+          height: '480px',
           margin: '0 auto',
           padding: '20px',
           border: '1px solid #ccc',
