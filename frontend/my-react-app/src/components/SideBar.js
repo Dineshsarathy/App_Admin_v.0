@@ -1,5 +1,6 @@
 import React from "react";
 import {NavLink, useLocation } from "react-router-dom";
+import { Icon } from "@iconify/react";
 
 export default function SideBar({ isCollapsed }){
     const location = useLocation();
@@ -15,7 +16,7 @@ export default function SideBar({ isCollapsed }){
             <ul className="menu">
                 <li className="menu-item">
                     <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/dashboard'}>
-                <span><i class="fa-solid fa-home"></i></span>
+                <span><Icon icon="fa:home" style={{ fontSize: '16px',color:'white',padding:"0px 10px" }}  /></span>
                 {!isCollapsed && <span>Home</span>} 
                     </NavLink>
                 </li>
@@ -24,19 +25,19 @@ export default function SideBar({ isCollapsed }){
                 className={({ isActive }) => (isActive ? 'active-link' : 'Link')} 
                 to="/template-list"
               >
-                <span><i className="fa-solid fa-file"></i></span>
+                <Icon icon="material-symbols-light:window" style={{ fontSize: '22px',color:'white',padding:"0px 10px" }}  />
                 {!isCollapsed && <span>Template List</span>} {/* Link to Template List */}
               </NavLink>
             </li>                
                 <li className="menu-item">
                     <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/task-report'}>
-                <span><i class="fa-solid fa-users-rectangle"></i></span>
+                <Icon className="i" icon="material-symbols:report-outline" style={{ fontSize: '22px',color:'white',padding:"0px 10px",textAlign: "center" }}  />
                 {!isCollapsed && <span>Testing Report</span>}
                     </NavLink>
                 </li>
                 <li className="menu-item">
                     <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/bug-report'}>
-                <span><i class="fa-solid fa-users-rectangle"></i></span>
+                <Icon icon="material-symbols:bug-report" style={{ fontSize: '22px',color:'white',padding:"0px 10px" }}  />
                 {!isCollapsed && <span>Assigned Bug</span>}
                     </NavLink>
                 </li>

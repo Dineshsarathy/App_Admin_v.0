@@ -1,3 +1,5 @@
+
+
 .sidebar{
   background-color: #0e466b;
   height: 100vh;
@@ -72,11 +74,15 @@
   text-align: left;
   box-sizing: border-box;
   border-radius: 10px;
+  align-content: center;
 }
-.active-link span i{
-  padding: 0px 10px;
+.active-link span{
+  
   text-align: center;
-  color: blueviolet;
+  
+}
+.active-link svg{
+  margin-bottom: -5px;
 }
 .menu{
   list-style: none;
@@ -88,11 +94,30 @@
   color: white;
   gap: 10px !important;
   padding: 10px 0px;
+  align-content: center;
+  box-sizing: border-box;
 }
- 
-.Link span i{
+.Link span{
+  box-sizing: border-box;
+  height: 30px;
+  
+}
+.Link svg{
+  
+  height: fit-content;
+  width: fit-content;
+  box-sizing: border-box;
+  display: inline;
+  align-items: center;
+  margin-bottom: -4px;
+}
+.Link span svg path{
+  
+}
+.Link span .i{
   padding: 0px 10px;
   text-align: center;
+  margin-top: 10px;
 }
 .content{
   padding: 0 20px;
