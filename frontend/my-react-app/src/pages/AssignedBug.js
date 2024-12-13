@@ -130,8 +130,8 @@ export default function AssignedBug() {
     e.preventDefault();
     const task = {
       ...newTask,
-      Template_ID: generateTemplateID(),
-      Bug_ID: generateBugID(),
+      Temp_id: generateTemplateID(),
+      Bug_Id: generateBugID(),
     };
     console.log("Task Payload:", task); // Log the payload
 
@@ -171,12 +171,13 @@ export default function AssignedBug() {
       await axios.post('http://localhost:8000/api/bugreport', task);
   
       toast.success('Task added successfully!');
+      
       fetchData();
   
       // Reset the form after successful submission
       setNewTask({
-        Template_ID: '',
-        Template_Name: '',
+        Temp_id: '',
+        Temp_Name: '',
         Bug_ID: '',
         Summary: '',
         Priority: 'Low',
@@ -250,10 +251,10 @@ export default function AssignedBug() {
   };
 
   const handleDelete = async (task) => {
-    if (window.confirm(`Are you sure you want to delete ${task.Template_Name}?`)) {
+    if (window.confirm(`Are you sure you want to delete ${task.Temp_Name}?`)) {
       try {
         await axios.delete(`http://localhost:8000/api/bugreport/${task._id}`);
-        toast.success(`${task.Template_Name} deleted successfully!`);
+        toast.success(`${task.Temp_Name} deleted successfully!`);
         fetchData();
       } catch (error) {
         console.error("Error deleting BugDetails:", error);

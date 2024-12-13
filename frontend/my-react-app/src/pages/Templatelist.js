@@ -124,7 +124,7 @@ export default function Templatelist() {
   //search filter
   const [searchTerm, setSearchTerm] = useState(""); // Search term state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // Number of items per page
+  const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
 
 
 // Pagination logic
@@ -237,6 +237,10 @@ const handleSave = async (e) => {
     sortData();
   }, [sortOption, data]);
   
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value)); // Update items per page
+    setCurrentPage(1); // Reset to the first page
+  };
 
   const columns = [
     { header: "Template Name", accessor: "templateName" },
@@ -265,14 +269,24 @@ const handleSave = async (e) => {
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               />
               <div className="filter">
-                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By :</span></label>
-                        <select id="filterDropdown"
+                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By items:</span></label>
+                        {/* <select id="filterDropdown"
                         value={sortOption}
                         onChange={(e) => setSortOption(e.target.value)}>
                           <option value="alphabetic">Alphabetical Order (A-Z)</option>
                           <option value="reverse-alphabetic">Alphabetical Order (Z-A)</option>
-                        </select>
+                        </select> */}
                     </div>
+                    <div className="items-per-page">
+                    <label>
+                      <select  id="filterDropdown" value={itemsPerPage} onChange={handleItemsPerPageChange}>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                      </select>
+                    </label>
+            </div>
                     <Popup trigger={
                               <button className="button-add">
                                 <Icon icon="carbon:add-alt" style={{ fontSize: "20px" }} />

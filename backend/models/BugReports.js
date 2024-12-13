@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const BugReportSchema = new mongoose.Schema({
-    Temp_id: {type: String, require: true},
+    Temp_id: {type: String, require: true,unique: true,default: uuidv4},
     Temp_Name: {type: String, require: true},
-    Bug_Id:{type: String, require: true, unique: true},
+    Bug_Id:{type: String, require: true, unique: true,default: uuidv4},
     Summary: {type: String, require: true},
     ScreenShot: {type: String, require: true},
     Priority: {type: String, require: true},

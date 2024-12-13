@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
     const bugreport = new BugReports({
         Temp_id:req.body.Temp_id,
         Temp_Name:req.body.Temp_Name,
-        Bug_Id:req.body.Bug_Id,
+        Bug_Id: Bug_Id || uuidv4(),
         Summary:req.body.Summary,
         ScreenShot:req.body.ScreenShot,
         Priority:req.body.Priority,
