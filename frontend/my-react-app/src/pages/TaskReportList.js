@@ -268,7 +268,7 @@ export default function TaskReportList() {
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               />
               <div className="filter">
-                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>Sort By items :</span></label>
+                        <label><Icon className="filter-icon" icon="stash:filter-light" style={{ fontSize: '28px', }}/><span>No of  items :</span></label>
                         {/* <select id="filterDropdown"
                         value={sortOption}
                         onChange={(e) => setSortOption(e.target.value)}>

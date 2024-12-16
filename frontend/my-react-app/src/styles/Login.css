@@ -40,11 +40,11 @@
     padding: 10px;
     border: 1px solid #313131;
     border-radius: 5px;
-    background-color: rgba(197, 197, 197, 0.5) !important;
+    background-color: white !important;
     backdrop-filter: blur(10px);
   }
   input:focus{
-    outline: 1px solid #007bff;
+    outline: 1px solid black;
   }
   
   button {

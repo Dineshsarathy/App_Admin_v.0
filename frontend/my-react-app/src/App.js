@@ -5,7 +5,7 @@ import "./styles/Dashboard.css";
 import "./styles/App.css";
 import "./styles/Header.css";
 import "./styles/Slider.css";
-/* import "./styles/Home.css"; */
+import "./styles/Home.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SuperAdmin from './pages/SuperAdmin';
 import TemplateList from './pages/Templatelist';

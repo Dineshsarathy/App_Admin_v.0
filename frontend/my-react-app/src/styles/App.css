@@ -3,7 +3,7 @@
 
 .body{
   box-sizing: border-box;
-  font-family: 'Poppins';
+  font-family: ' Arial, sans-serif;';
 }
 .App {
   font-family: 'Poppins';
@@ -81,6 +81,7 @@ input {
   font-size: 14px;
   box-sizing: border-box;
   height: 50px !important;
+
 
 }
  
@@ -163,6 +164,8 @@ option{
   background-color: #f9f9f9;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100px;
+  margin-left: -40px;
 }
 
 .items-per-page select:hover {
@@ -270,32 +273,40 @@ button .text {
   font-size: 16px; /* Text size */
 }
 
+/* <---------------------------------------------Taskreport.css-------------------------------------> */
 
 table {
-  width: 80%;
+  width: 95%;
   margin: 10px ;
   border-collapse: collapse;
+  align-items: center;
 }
 
 table th,
 table td {
-  padding: 5px;
+  padding: 10px;
   text-align: left;
-  border: 1px solid;
+  border: 1px solid #ccc;
+  margin: 8px;
 }
 
 table th {
-  background-color: #8458B3;
+  background-color: #0e466b;
   text-align: center;
+  padding: 10px;
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f2f2f2;
+}
+table tr:hover {
+  background-color: #e8f6ff;
 }
 
 table td button {
   margin-right: 10px;
 }
+
 
 /* Table row actions buttons */
 table td button:first-child {
@@ -379,13 +390,12 @@ table td button:last-child {
 }
 input.search {
   width: 260px;
-  border: 1px solid #a8a8a8 !important;
+  border: 1px solid #000 ;
   height: 35px !important;
   border-radius: 20px;
   display: block;
-
-  
   padding: 9px 4px 9px 40px;
+  background-color: white;
 }
 .profiles {
   align-content: center;

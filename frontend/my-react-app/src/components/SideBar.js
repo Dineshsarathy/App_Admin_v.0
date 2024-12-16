@@ -9,13 +9,13 @@ export default function SideBar({ isCollapsed }){
         <div className="logo">
             <div className="logo-img">
                 <img className="img" src="https://as1.ftcdn.net/v2/jpg/08/22/28/66/1000_F_822286634_JqfHuMV7aEWpjIP3x23GPwzz2Blcd5Wg.jpg" />
-                {!isCollapsed && <span>Super Admin</span>}
+                {!isCollapsed && <span>Employee</span>}
             </div>
         </div>
         <div className="content">
             <ul className="menu">
                 <li className="menu-item">
-                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/dashboard'}>
+                    <NavLink className={({ isActive }) => (isActive ? 'active-link' : 'Link')} to={'/super-admin'}>
                 <span><Icon icon="fa:home" style={{ fontSize: '16px',color:'white',padding:"0px 10px" }}  /></span>
                 {!isCollapsed && <span>Home</span>} 
                     </NavLink>
