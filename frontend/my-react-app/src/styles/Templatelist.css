@@ -8,11 +8,8 @@ body {
 }
 
 .table-container {
-  
   border-radius: 5px;
-  width: 100%;
-  
-  
+  width: 100%;  
 }
 .Emplist{
   width: 100%;
@@ -386,3 +383,4 @@ input.search {
   display: flex;
   justify-content: space-evenly;
 }
+

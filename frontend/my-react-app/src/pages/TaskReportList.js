@@ -11,66 +11,113 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Format date function
 const formatDate = (date) => {
-  return format(new Date(date), 'MM/dd/yyyy'); // Formatting date to MM/DD/YYYY
+  return format(new Date(date), "MM/dd/yyyy"); // Formatting date to MM/DD/YYYY
 };
 
-const StylishTable = ({ data, columns, handleEdit, handleDelete }) => (
-  <table>
-    <thead>
-      <tr>
-        {columns.map((col) => (
-          <th key={col.accessor}>{col.header}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {data.length === 0 ? (
+const StylishTable = ({ data, columns, handleEdit, handleDelete }) => {
+  // State to track the sorting option
+  const [sortOption, setSortOption] = useState({
+    column: "templateName", // Default sorting column
+    direction: "asc", // Default direction is ascending
+  });
+
+  // Handle sorting when a column header is clicked
+  const handleSort = (column) => {
+    setSortOption((prev) => {
+      const newDirection =
+        prev.column === column && prev.direction === "asc" ? "desc" : "asc";
+      return { column, direction: newDirection };
+    });
+  };
+
+  // Sort data based on the current sort option
+  const sortedData = [...data].sort((a, b) => {
+    const { column, direction } = sortOption;
+    if (a[column] < b[column]) return direction === "asc" ? -1 : 1;
+    if (a[column] > b[column]) return direction === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  return (
+    <table>
+      <thead>
         <tr>
-          <td colSpan={columns.length}>No data found</td>
-        </tr>
-      ) : (
-        data.map((row) => (
-          <tr key={row._id}>
-            {columns.map((col) => (
-              <td key={col.accessor}>
-                {col.accessor === "actions" ? (
-                  <div className="action-buttons">
-                    <button
-                      className="edit"
-                      style={{ backgroundColor: "rgb(9, 134, 9)" }}
-                      onClick={() => handleEdit(row)}
-                    >
-                      <FaPen className="icon" style={{ fontSize: "14px", margin: 0 }} />
-                    </button>
-                    <button
-                      className="delete"
-                      style={{ backgroundColor: "red" }}
-                      onClick={() => handleDelete(row)}
-                    >
-                      <FaTrashAlt className="icon" style={{ fontSize: "14px" }} />
-                    </button>
-                  </div>
-                ) : (
-                  <span>
-                    {col.accessor === "Status"
-                      ? row[col.accessor]
-                        ? "Completed"
-                        : "Pending"
-                      : col.accessor === "Assigned_Date" || col.accessor === "Completed_Date"
-                      ? formatDate(row[col.accessor])
-                      : row[col.accessor]}
+          {columns.map((col) => (
+            <th
+              key={col.accessor}
+              onClick={() => col.accessor !== "actions" && handleSort(col.accessor)} // Handle sort for all except 'actions'
+              style={{ cursor: col.accessor !== "actions" ? "pointer" : "default" }}
+            >
+              
+              <div style={{ display: "inline-flex", alignItems: "center"}}>
+                {col.header}
+                {col.accessor !== "actions" && (
+                  <span style={{ marginLeft: "5px" ,fontSize: "14px", display:"flex",flexDirection:"row"}}>
+                    {sortOption.column === col.accessor ? (
+                      sortOption.direction === "asc" ? (
+                        <span>&#9650;</span> // Up arrow ▲
+                      ) : (
+                        <span>&#9660;</span> // Down arrow ▼
+                      )
+                    ) : (
+                      <span style={{ color: "#ccc" }}>&#9650; &#9660;</span> // Neutral arrows
+                    )}
                   </span>
                 )}
-              </td>
-            ))}
+              </div>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {sortedData.length === 0 ? (
+          <tr>
+            <td colSpan={columns.length}>No data found</td>
           </tr>
-        ))
-      )}
-    </tbody>
-  </table>
-);
+        ) : (
+          sortedData.map((row) => (
+            <tr key={row._id}>
+              {columns.map((col) => (
+                <td key={col.accessor}>
+                  {col.accessor === "actions" ? (
+                    <div className="action-buttons">
+                      <button
+                        className="edit"
+                        style={{ backgroundColor: "rgb(9, 134, 9)" }}
+                        onClick={() => handleEdit(row)}
+                      >
+                        <FaPen className="icon" style={{ fontSize: "14px", margin: 0 }} />
+                      </button>
+                      <button
+                        className="delete"
+                        style={{ backgroundColor: "red" }}
+                        onClick={() => handleDelete(row)}
+                      >
+                        <FaTrashAlt className="icon" style={{ fontSize: "14px" }} />
+                      </button>
+                    </div>
+                  ) : (
+                    <span>
+                      {col.accessor === "Status"
+                        ? row[col.accessor]
+                          ? "Completed"
+                          : "Pending"
+                        : col.accessor === "Assigned_Date" || col.accessor === "Completed_Date"
+                        ? formatDate(row[col.accessor])
+                        : row[col.accessor]}
+                    </span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+  );
+};
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange,sortOption, onSortChange }) => {
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
